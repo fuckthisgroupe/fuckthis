@@ -40,7 +40,7 @@ class _LoginPageSate extends State<LoginPage>{
     return new Scaffold(
 
       appBar: AppBar(
-        title: Image(image:AssetImage("images/flutter1.png",),height: 30.0,fit: BoxFit.fitHeight,),
+        title: Image(image:AssetImage("images/fuckthis_logo.png",),height: 100.0,fit: BoxFit.fitHeight,),
 
         elevation: 0.0,
 
@@ -105,20 +105,16 @@ class _LoginPageSate extends State<LoginPage>{
                                  // child: ImageIcon(AssetImage("images/google1.png"),semanticLabel: "login",),
                                   child: Image(image: AssetImage("images/google1.png"),height:28.0,fit: BoxFit.fitHeight),
                                   onPressed: (){
-                                // googleauth.signIn().then((result){result.authentication.then((googleuser){
-                                //   FirebaseAuth.instance.signInWithGoogle
-                                //     (idToken: googleuser.idToken, accessToken: googleuser.accessToken).
-                                //   then((user){
-                                //     print("Signedin user ${user.displayName}");
-                                //     Navigator.of(context).pushReplacementNamed("/userpage");
-                                //   }).catchError((e){
-                                //     print(e);
-                                //   });
-                                // }).catchError((e){
-                                //   print(e);
-                                // });}).catchError((e){
-                                //   print(e);
-                                // });
+                                    googleauth.signIn().then( (result) {result.authentication.then( (googleuser){
+                                        final AuthCredential credential = GoogleAuthProvider.getCredential(
+                                          accessToken: googleuser.accessToken,
+                                          idToken: googleuser.idToken,
+                                        );
+                                        FirebaseAuth.instance.signInWithCredential(credential).then( (firebaseUser) {
+                                          print(firebaseUser.displayName);
+                                        });
+                                      });
+                                    });
                                   }),
                             )
 

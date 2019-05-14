@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>1051341730269-0at0bk05one6nj2sbptmqdk3v6vn7lct.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.1051341730269-0at0bk05one6nj2sbptmqdk3v6vn7lct</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAVpivKd_Zod872WOBpb2Du5Uuf70Tk8QE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>1051341730269</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.fuckthat.fuckthis</string>
+	<key>PROJECT_ID</key>
+	<string>fuckthis-a81f1</string>
+	<key>STORAGE_BUCKET</key>
+	<string>fuckthis-a81f1.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:1051341730269:ios:3c3af56257e7cef3</string>
+	<key>DATABASE_URL</key>
+	<string>https://fuckthis-a81f1.firebaseio.com</string>
+</dict>
+</plist>
