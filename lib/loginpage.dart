@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+
 class LoginPage extends StatefulWidget{
   @override
   _LoginPageSate createState()=>_LoginPageSate();
@@ -146,11 +147,15 @@ class _LoginPageSate extends State<LoginPage>{
                         onPressed: (){
                           Navigator.of(context).pushNamed('/signup');
                         }),
-                    OutlineButton(
-                        child: Text("ui"),
+                    FlatButton(
+                      
+          
+                         child: Image(image: AssetImage("images/shakeleft1.png"),height:200.0,fit: BoxFit.fitHeight),
                         onPressed: (){
+                          
                           Navigator.of(context).pushNamed('/userpage');
-                        })
+                        }
+                        )
                   ],
 
                 ),

@@ -59,6 +59,8 @@ flutter:
      - images/team.png
      - images/fuckthis_logo_long.png
      - images/fuckthis_logo.png
+     - images/shakeleft1.png
+     - images/shakeright1.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
