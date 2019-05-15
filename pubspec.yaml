@@ -15,7 +15,8 @@ environment:
 dependencies:
   firebase_auth:
   google_sign_in:
-  expo_sensors: ^0.1.0
+  sensors:
+  rxdart:
  # cloud_firestore:
   flutter:
     sdk: flutter
