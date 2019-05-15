@@ -27,15 +27,6 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
     double _prevY = 1;
     bool _isRising = false;
 
-    // if(shakeSubscriber == null ) {
-    //   prefix0.SensorBloc().shakeEvent.listen((_){
-    //     print("SHAKE ! *************************");
-    //   });
-    //   // SensorBloc().shakeEvent.listen((_){
-    //   //   print("SHAKE ! *************************");
-    //   // });
-    // }
-
     accelerometerEvents.listen((AccelerometerEvent event) {
       // print(event.y);
       if((event.y - _prevY).abs() > 0.2) {
@@ -65,7 +56,7 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
 
   @override
   void dispose() {
-    // if(shakeSubscriber != null ) shakeSubscriber.cancel();
+    if(shakeSubscriber != null ) shakeSubscriber.cancel();
 
     super.dispose();
   }
