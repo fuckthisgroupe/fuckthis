@@ -147,15 +147,22 @@ class _LoginPageSate extends State<LoginPage>{
                         onPressed: (){
                           Navigator.of(context).pushNamed('/signup');
                         }),
-                    FlatButton(
-                      
-          
-                         child: Image(image: AssetImage("images/shakeleft1.png"),height:200.0,fit: BoxFit.fitHeight),
+                    OutlineButton(
+                        child: Text("Play"),
                         onPressed: (){
-                          
-                          Navigator.of(context).pushNamed('/userpage');
+                          Navigator.of(context).pushNamed('/game');
+                        }),
+
+                         FlatButton(
+                            child: Image(image: AssetImage("images/google1.png"),height:28.0,fit: BoxFit.fitHeight),
+                 
+                        onPressed: (){
+                          Navigator.of(context).pushNamed('/signup');
                         }
+                       
                         )
+
+                   
                   ],
 
                 ),
