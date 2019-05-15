@@ -2,8 +2,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase/sensor_bloc.dart';
-import 'package:flutter_firebase/sensor_bloc.dart' as prefix0;
 import 'package:sensors/sensors.dart';
 
 
