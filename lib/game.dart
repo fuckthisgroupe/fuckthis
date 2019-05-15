@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sensors/sensors.dart';
 
@@ -15,19 +16,31 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
   StreamSubscription<bool> shakeSubscriber ;    
 
   int _shakeCounter;
-
+  bool _isTime = false;
 
   @override
   Widget build(BuildContext context) {
 
-    _shakeCounter = 0;
+   
+
+    return _buildGameScaffold();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+
+    super.dispose();
+  }
+
+  void _listenShakes(){ _shakeCounter = 0;
 
     double _prevY = 1;
     bool _isRising = false;
 
     accelerometerEvents.listen((AccelerometerEvent event) {
       // print(event.y);
-      if((event.y - _prevY).abs() > 0.2) {
+      if((event.y - _prevY).abs() > 0.2 && _isTime) {
         
         if(event.y > _prevY) {
           // it's going up
@@ -47,20 +60,10 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
 
         print(_shakeCounter);
       }
-    });
-
-    return _buildGameScaffold();
-  }
-
-  @override
-  void dispose() {
-    if(shakeSubscriber != null ) shakeSubscriber.cancel();
-
-    super.dispose();
-  }
+    });}
 
   Scaffold _buildGameScaffold() {
-    return Scaffold(
+    /*return Scaffold(
       appBar: AppBar(
         // title: Image(image:AssetImage("images/fuckthis_logo.png",),height: 30.0,fit: BoxFit.fitHeight,),
         title: Text(_shakeCounter.toString()),
@@ -72,8 +75,42 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
         }),
       ),
       // body: ,
-    );
+    );*/
+    return new Scaffold(
+      appBar: AppBar(title: Text("Timer test")),
+      body: Column(
+        children: <Widget>[
+          RaisedButton(
+            onPressed: () {
+              startTimer();
+              _listenShakes();
+            },
+            child: Text("start"),
+          ),
+          Text("$_start")
+        ],
+      ));
   }
+
+Timer _timer;
+int _start =10;
+
+void startTimer() {
+  
+  const oneSec = const Duration(seconds: 1);
+  _isTime = true;
+  _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) => setState(() {
+            if (_start < 1) {
+              timer.cancel();
+              _isTime = false;
+            } else {
+              _start = _start - 1;
+            }
+          }));
+}
+
 
 }
 
