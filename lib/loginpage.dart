@@ -40,7 +40,7 @@ class _LoginPageSate extends State<LoginPage>{
     return new Scaffold(
 
       appBar: AppBar(
-        title: Image(image:AssetImage("images/fuckthis_logo.png",),height: 100.0,fit: BoxFit.fitHeight,),
+        title: Image(image:AssetImage("images/fuckthis.png",),height: 100.0,fit: BoxFit.fitHeight,),
 
         elevation: 0.0,
 
@@ -150,16 +150,7 @@ class _LoginPageSate extends State<LoginPage>{
                         child: Text("Play"),
                         onPressed: (){
                           Navigator.of(context).pushNamed('/game');
-                        }),
-
-                         FlatButton(
-                            child: Image(image: AssetImage("images/google1.png"),height:28.0,fit: BoxFit.fitHeight),
-                 
-                        onPressed: (){
-                          Navigator.of(context).pushNamed('/signup');
-                        }
-                       
-                        )
+                        })
 
                    
                   ],
