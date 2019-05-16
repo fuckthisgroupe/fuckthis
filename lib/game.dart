@@ -72,14 +72,17 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          RaisedButton(
+          !_isTime
+          ?RaisedButton(
             onPressed: () {
+              _start = 10 ;
               startTimer();
               _listenShakes();
             },
             
             child: Text("start"),
-          ),
+          ):
+          Text("Shake it !"),              
           Text("$_start"),
                
             Container(
