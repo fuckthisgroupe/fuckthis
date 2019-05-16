@@ -88,16 +88,16 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
                 child: Visibility(          
               visible: _img1,
               child: Image(
-                  image: AssetImage("images/shakeleft1.png"),
-                  height: 150.0,
+                  image: AssetImage("images/shakeleftup.png"),
+                  height: 450.0,
                   fit: BoxFit.fitHeight),
             )),
             Container(
                 child: Visibility(
               visible: _img2,
               child: Image(
-                  image: AssetImage("images/shakeleft3.png"),
-                  height: 150.0,
+                  image: AssetImage("images/shakeleftdown.png"),
+                  height: 450.0,
                   fit: BoxFit.fitHeight),
             ))
         ],
