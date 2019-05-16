@@ -41,7 +41,6 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
         if (event.y > _prevY) {
           // it's going up
           if (!_isRising) {
-        
             _shakeCounter++;
             
           }
@@ -66,7 +65,6 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
   }
 
   Scaffold _buildGameScaffold() {
-
     return new Scaffold(
       appBar: AppBar(title: Text("Timer test")),
       body: Center(
