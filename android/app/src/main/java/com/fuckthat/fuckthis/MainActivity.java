@@ -1,4 +1,4 @@
-package com.divyamjoshiflutter.flutterfirebase;
+package com.fuckthat.fuckthis;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
