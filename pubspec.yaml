@@ -63,6 +63,9 @@ flutter:
      - images/fuckthis_logo.png
      - images/shakeleft1.png
      - images/shakeright1.png
+     - images/fuckthis.png
+     - images/shakeleft3.png
+
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
