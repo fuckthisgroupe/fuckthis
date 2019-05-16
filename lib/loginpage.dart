@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import 'main.dart';
+
 class LoginPage extends StatefulWidget{
   @override
   _LoginPageSate createState()=>_LoginPageSate();
@@ -27,8 +29,9 @@ class _LoginPageSate extends State<LoginPage>{
     if (checkFields()){
       FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
           .then((user){
+        FireAuth.currentUser = user;
         print("signed in as ${user.uid}");
-        Navigator.of(context).pushReplacementNamed('/userpage');
+        Navigator.of(context).pushReplacementNamed('/game');
       }).catchError((e){
         print(e);
       });
