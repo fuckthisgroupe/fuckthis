@@ -70,58 +70,37 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          RaisedButton(
+          !_isTime ? RaisedButton(
             onPressed: () {
+              _start = 10;
               startTimer();
               _listenShakes();
             },
             
-            child: Text("start"),
-          ),
+            child: Text("Start"),
+          ): Text("Shake it !"),
           Text("$_start")
         ],
       )));
   }
 
-Timer _timer;
-int _start =10;
+  Timer _timer;
+  int _start =10;
 
-void startTimer() {
-  
-
-  const oneSec = const Duration(seconds: 1);
-  _isTime = true;
-  _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) => setState(() {
-            if (_start < 1) {
-              timer.cancel();
-              _isTime = false;
-            } else {
-              _start = _start - 1;
-            }
-          }));
-}
-
-Timer _timer;
-int _start =10;
-
-void startTimer() {
-  
-  const oneSec = const Duration(seconds: 1);
-  _isTime = true;
-  _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) => setState(() {
-            if (_start < 1) {
-              timer.cancel();
-              _isTime = false;
-            } else {
-              _start = _start - 1;
-            }
-          }));
-}
-
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _isTime = true;
+    _timer = new Timer.periodic(
+        oneSec,
+        (Timer timer) => setState(() {
+              if (_start < 1) {
+                timer.cancel();
+                _isTime = false;
+              } else {
+                _start = _start - 1;
+              }
+            }));
+  }
 
 }
 
