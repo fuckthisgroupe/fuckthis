@@ -3,6 +3,7 @@ import 'package:flutter_firebase/homepage.dart';
 import 'package:flutter_firebase/loginpage.dart';
 import 'package:flutter_firebase/signup.dart';
 import 'package:flutter_firebase/game.dart';
+import 'package:flutter_firebase/people.dart' show People;
 //import 'package:firebase_auth/firebase_auth.dart';
 void main()=>runApp(FireAuth());
 
@@ -19,7 +20,8 @@ theme: ThemeData(primarySwatch: Colors.blue),
         "/userpage":(BuildContext context)=>new Page(),
         "/loginpage":(BuildContext context)=>new LoginPage(),
         "/signup":(BuildContext context)=>new SignUpPage(),
-        "/game":(BuildContext context)=>new Game()
+        "/game":(BuildContext context)=>new Game(),
+        "/people":(BuildContext context)=>new People(),
       },
     );
   }
