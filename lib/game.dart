@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sensors/sensors.dart';
 
 class Game extends StatefulWidget {
@@ -9,8 +10,9 @@ class Game extends StatefulWidget {
   _FlutterGameState createState() => _FlutterGameState();
 }
 
-class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin {
-  StreamSubscription<bool> shakeSubscriber;
+class _FlutterGameState extends State<Game>
+    with SingleTickerProviderStateMixin {
+
   bool _img1 = false;
   bool _img2 = false;
   int _shakeCounter;
@@ -42,7 +44,6 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
           // it's going up
           if (!_isRising) {
             _shakeCounter++;
-            
           }
           _img1 = true;
           _img2 = false;
@@ -52,8 +53,8 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
           if (_isRising) {
             _shakeCounter++;
           }
-           _img1 = false;
-            _img2 = true;
+          _img1 = false;
+          _img2 = true;
           _isRising = false;
         }
 
@@ -66,27 +67,73 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
 
   Scaffold _buildGameScaffold() {
     return new Scaffold(
-      appBar: AppBar(title: Text("Timer test")),
-      body: Center(
-        child : Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-        children: <Widget>[
-          !_isTime
-          ?RaisedButton(
-            onPressed: () {
-              _start = 10 ;
-              startTimer();
-              _listenShakes();
-            },
-            
-            child: Text("start"),
-          ):
-          Text("Shake it !"),              
-          Text("$_start"),
-               
+        appBar: AppBar(
+          title: Image(
+            image: AssetImage(
+              "images/fuckthis.png",
+            ),
+            height: 100.0,
+            fit: BoxFit.fitHeight,
+          ),
+          elevation: 0.0,
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+        ),
+        body: Center(
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
             Container(
-                child: Visibility(          
+              width: double.infinity,
+              child: !_isTime
+                  ? FlatButton(
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.only(top: 15, bottom: 15),
+                      onPressed: () {
+                        _start = 10;
+                        startTimer();
+                        _listenShakes();
+                      },
+                      child: 
+                        Text(_shakeCounter != null ? "Try again ?" : "Start",
+                        style: TextStyle(
+                          fontSize: 40.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.pink,
+                        )),
+                    )
+                  : Text(
+                      "Shake it !",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 50.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 18),
+              child: _shakeCounter != null ? Text("Score:") : Text(""),
+            ),
+            _shakeCounter != null
+                ? Text(
+                    "$_shakeCounter",
+                    style: TextStyle(
+                      fontSize: 104.0,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.pinkAccent,
+                    ),
+                  )
+                : Text(""),
+            Container(
+              child: Visibility(
+                visible: _isTime,
+                child: Text("$_start secondes restantes"),
+              ),
+            ),
+            Container(
+                child: Visibility(
               visible: _img1,
               child: Image(
                   image: AssetImage("images/shakelefttop.png"),
@@ -101,42 +148,27 @@ class _FlutterGameState extends State<Game> with SingleTickerProviderStateMixin 
                   height: 450.0,
                   fit: BoxFit.fitHeight),
             ))
-        ],
-      )));
+          ],
+        )));
   }
 
-Timer _timer;
-int _start =10;
+  Timer _timer;
+  int _start = 10;
 
-void startTimer() {
-  
-
-  const oneSec = const Duration(seconds: 1);
-  _isTime = true;
-  _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) => setState(() {
-            if (_start < 1) {
-              timer.cancel();
-              _isTime = false;
-            } else {
-              _start = _start - 1;
-            }
-          }));
-}
-    /*return Scaffold(
-      appBar: AppBar(
-        // title: Image(image:AssetImage("images/fuckthis_logo.png",),height: 30.0,fit: BoxFit.fitHeight,),
-        title: Text(_shakeCounter.toString()),
-        elevation: 0.0,
-        centerTitle: true,
-        backgroundColor: Colors.black,
-        leading: IconButton(icon: Icon(Icons.arrow_back),color: Colors.grey, onPressed: (){
-          Navigator.of(context).pushReplacementNamed("/loginpage");
-        }),
-      ),
-      // body: ,
-    );*/
-
-
+  void startTimer() {
+    const oneSec = const Duration(seconds: 1);
+    _isTime = true;
+    _timer = new Timer.periodic(
+        oneSec,
+        (Timer timer) => setState(() {
+              if (_start < 1) {
+                timer.cancel();
+                _isTime = false;
+                _img1 = false;
+                _img2 = false;
+              } else {
+                _start = _start - 1;
+              }
+            }));
+  }
 }
