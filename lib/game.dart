@@ -96,7 +96,7 @@ class _FlutterGameState extends State<Game>
                         _listenShakes();
                       },
                       child: 
-                        Text(_shakeCounter != null ? "Try again" : "Start",
+                        Text(_shakeCounter != null ? "Try again ?" : "Start",
                         style: TextStyle(
                           fontSize: 40.0,
                           fontWeight: FontWeight.bold,
