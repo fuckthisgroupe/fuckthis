@@ -27,7 +27,9 @@ before_script:
   - ./flutter/bin/flutter doctor
   - chmod +x travis_script.sh
 script:
-  - ./travis_script.sh
+  # - ./travis_script.sh
+  - ../flutter/bin/flutter analyze
+  - ../flutter/bin/flutter test
 cache:
   directories:
     - $HOME/shared/.pub-cache
