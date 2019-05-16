@@ -61,9 +61,16 @@ flutter:
      - images/team.png
      - images/fuckthis_logo_long.png
      - images/fuckthis_logo.png
+<<<<<<< HEAD
      - images/shakelefttop.png
      - images/fuckthis.png
      - images/shakeleftbottom.png
+=======
+     - images/shakeleftup.png
+     - images/shakeright1.png
+     - images/fuckthis.png
+     - images/shakeleftdown.png
+>>>>>>> dcc66e4ce12fe404dc588b5965c7e0446d9a5266
 
 
 
