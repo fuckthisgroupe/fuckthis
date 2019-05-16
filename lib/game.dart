@@ -103,6 +103,25 @@ void startTimer() {
           }));
 }
 
+Timer _timer;
+int _start =10;
+
+void startTimer() {
+  
+  const oneSec = const Duration(seconds: 1);
+  _isTime = true;
+  _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) => setState(() {
+            if (_start < 1) {
+              timer.cancel();
+              _isTime = false;
+            } else {
+              _start = _start - 1;
+            }
+          }));
+}
+
 
 }
 

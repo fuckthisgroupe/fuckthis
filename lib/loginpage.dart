@@ -151,7 +151,6 @@ class _LoginPageSate extends State<LoginPage>{
                         onPressed: (){
                           Navigator.of(context).pushNamed('/game');
                         })
-
                    
                   ],
 
