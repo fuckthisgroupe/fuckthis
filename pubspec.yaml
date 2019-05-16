@@ -61,10 +61,10 @@ flutter:
      - images/team.png
      - images/fuckthis_logo_long.png
      - images/fuckthis_logo.png
-     - images/shakeleft1.png
+     - images/shakeleftup.png
      - images/shakeright1.png
      - images/fuckthis.png
-     - images/shakeleft3.png
+     - images/shakeleftdown.png
 
 
 
