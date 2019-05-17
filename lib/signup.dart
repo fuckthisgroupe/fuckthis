@@ -28,7 +28,7 @@ class _SignupPageSate extends State<SignUpPage>{
         print('signed in as ${user.uid}');
 
         Navigator.of(context).pop();
-        Navigator.of(context).pushNamed('/userpage');
+        Navigator.of(context).pushNamed('/game');
       }).catchError((e){
         print(e);
       });
