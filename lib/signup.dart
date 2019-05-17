@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:async';
 
 class SignUpPage extends StatefulWidget{
   @override
@@ -28,7 +27,7 @@ class _SignupPageSate extends State<SignUpPage>{
         print('signed in as ${user.uid}');
 
         Navigator.of(context).pop();
-        Navigator.of(context).pushNamed('/userpage');
+        Navigator.of(context).pushNamed('/game');
       }).catchError((e){
         print(e);
       });

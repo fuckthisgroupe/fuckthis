@@ -14,12 +14,15 @@ environment:
 
 dependencies:
   firebase_auth:
+  firebase_database:
   google_sign_in:
   sensors:
   rxdart:
  # cloud_firestore:
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.6.1
+  shared_preferences: ^0.4.3
 
 
 
@@ -27,10 +30,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
 
+flutter_icons:
+  image_path: "images/mini_logo.png"
+  android: true
+  ios: true
+    
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -64,6 +69,9 @@ flutter:
      - images/shakelefttop.png
      - images/fuckthis.png
      - images/shakeleftbottom.png
+     - images/shakeman.gif
+     - images/mini_logo.png
+
 
 
 

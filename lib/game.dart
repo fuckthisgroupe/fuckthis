@@ -1,9 +1,12 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sensors/sensors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -13,11 +16,16 @@ class Game extends StatefulWidget {
 class _FlutterGameState extends State<Game>
     with SingleTickerProviderStateMixin {
 
+  static const String FIREBASE_KEY = 'score';
+
+  static int onlineBestScore;
   bool _img1 = false;
   bool _img2 = false;
   int _shakeCounter;
   bool hide = false;
   bool _isTime = false;
+
+  int localScore;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +74,19 @@ class _FlutterGameState extends State<Game>
   }
 
   Scaffold _buildGameScaffold() {
+    localScore = 0;
+
+    FirebaseAuth.instance.currentUser().then( (user) async {
+      if (user == null) {
+        // local persist
+        _read().then( (int x) {
+          localScore = x;
+        });
+      } else {
+        _firebaseListen(user);
+      }
+    });
+
     return new Scaffold(
         appBar: AppBar(
           title: Image(
@@ -95,13 +116,13 @@ class _FlutterGameState extends State<Game>
                         startTimer();
                         _listenShakes();
                       },
-                      child: 
-                        Text(_shakeCounter != null ? "Try again ?" : "Start",
-                        style: TextStyle(
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.pink,
-                        )),
+                      child:
+                          Text(_shakeCounter != null ? "Try again ?" : "Start",
+                              style: TextStyle(
+                                fontSize: 40.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.pink,
+                              )),
                     )
                   : Text(
                       "Shake it !",
@@ -147,7 +168,35 @@ class _FlutterGameState extends State<Game>
                   image: AssetImage("images/shakeleftbottom.png"),
                   height: 450.0,
                   fit: BoxFit.fitHeight),
-            ))
+            )),
+            Container(
+              child: Visibility(
+                visible: !_isTime,
+                child: onlineBestScore != null ? Text("Best score: $onlineBestScore") : Text("Best score: $localScore"),
+              ),
+            ),
+            Container(
+              child: Visibility(
+                visible: !_isTime && onlineBestScore != null,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 120),
+                  width: double.infinity,
+                  child: RaisedButton(
+                  color: Colors.white,
+                  onPressed: () {
+                        _logoutFirebase();
+                      },
+                      child:
+                          Text("Logout",
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.pink,
+                              )),
+                ),
+              ),
+              
+              ),
+            ),
           ],
         )));
   }
@@ -166,9 +215,81 @@ class _FlutterGameState extends State<Game>
                 _isTime = false;
                 _img1 = false;
                 _img2 = false;
+                _persistScore(_shakeCounter); // DEBUG
               } else {
                 _start = _start - 1;
               }
             }));
   }
+
+    Future<int> _read() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'my_int_key';
+    final value = prefs.getInt(key) ?? 0;
+    print('read: $value');
+    return value;
+
+  }
+
+
+  _save() async {
+
+    if(_shakeCounter > await _read()){
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'my_int_key';
+      localScore = _shakeCounter;
+      final value = _shakeCounter;
+      prefs.setInt(key, value);
+      print('saved $value');
+    }
+
+  }
+  
+  void _persistScore(int score) {
+    FirebaseAuth.instance.currentUser().then( (user) async {
+      if (user == null) {
+          _save();
+          _read();
+      } else {
+        // firebase persist
+        await _firebasePersist(score, user);
+        _firebaseListen(user);
+      }
+    });
+  }
+
+  Future<void> _firebasePersist(int score, FirebaseUser user) async {
+    if(score > onlineBestScore) {
+     return FirebaseDatabase.instance
+        .reference()
+        .child("users")
+        .child( user.uid.toString())
+        .child(FIREBASE_KEY)
+        .set(score);
+    }
+  }
+
+  void _firebaseListen(FirebaseUser user) {
+    FirebaseDatabase.instance
+        .reference()
+        .child("users")
+        .child( user.uid.toString())
+        .child(FIREBASE_KEY)
+        .onValue
+        .listen( (Event event) {
+          onlineBestScore = event.snapshot.value;
+        });
+  }
+
+  void _logoutFirebase() async {
+    await FirebaseAuth.instance.signOut().then((action) {
+      onlineBestScore = null;
+      Navigator
+          .of(context)
+          .pushReplacementNamed('/loginpage');
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
 }
