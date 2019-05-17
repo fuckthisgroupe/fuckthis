@@ -143,6 +143,9 @@ class _LoginPageSate extends State<LoginPage> {
                                                     .signInWithCredential(
                                                         credential)
                                                     .then((firebaseUser) {
+                                                      Navigator
+                                                      .of(context)
+                                                      .pushReplacementNamed('/game');
                                                   print(
                                                       firebaseUser.displayName);
                                                 });

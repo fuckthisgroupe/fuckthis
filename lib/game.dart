@@ -25,7 +25,7 @@ class _FlutterGameState extends State<Game>
   bool hide = false;
   bool _isTime = false;
 
-  int localScore;
+  int localScore = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,6 @@ class _FlutterGameState extends State<Game>
   }
 
   Scaffold _buildGameScaffold() {
-    localScore = 0;
 
     FirebaseAuth.instance.currentUser().then( (user) async {
       if (user == null) {
