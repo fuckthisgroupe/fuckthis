@@ -9,7 +9,8 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPageSate extends State<LoginPage> {
   String _email;
-  String _password;
+  String   _password;
+
   //google sign
   GoogleSignIn googleauth = new GoogleSignIn();
   final formkey = new GlobalKey<FormState>();
@@ -22,18 +23,17 @@ class _LoginPageSate extends State<LoginPage> {
     return false;
   }
 
-  LoginUser() {
-    if (checkFields()) {
-      FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: _email, password: _password)
-          .then((user) {
-        print("signed in as ${user.uid}");
-        Navigator.of(context).pushReplacementNamed('/userpage');
-      }).catchError((e) {
+  LoginUser(){
+    if (checkFields()){
+      FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)
+          .then((user){
+        Navigator.of(context).pushReplacementNamed('/game');
+      }).catchError((e){
         print(e);
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {

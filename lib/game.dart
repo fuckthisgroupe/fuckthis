@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sensors/sensors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -18,12 +19,13 @@ class _FlutterGameState extends State<Game>
   static const String FIREBASE_KEY = 'score';
 
   static int onlineBestScore;
-
   bool _img1 = false;
   bool _img2 = false;
   int _shakeCounter;
   bool hide = false;
   bool _isTime = false;
+
+  int localScore;
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +73,14 @@ class _FlutterGameState extends State<Game>
     });
   }
 
-
   Scaffold _buildGameScaffold() {
+
     FirebaseAuth.instance.currentUser().then( (user) async {
       if (user == null) {
         // local persist
-        // _localPersist(score);
+        _read().then( (int x) {
+          localScore = x;
+        });
       } else {
         _firebaseListen(user);
       }
@@ -111,13 +115,13 @@ class _FlutterGameState extends State<Game>
                         startTimer();
                         _listenShakes();
                       },
-                      child: 
-                        Text(_shakeCounter != null ? "Try again ?" : "Start",
-                        style: TextStyle(
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.pink,
-                        )),
+                      child:
+                          Text(_shakeCounter != null ? "Try again ?" : "Start",
+                              style: TextStyle(
+                                fontSize: 40.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.pink,
+                              )),
                     )
                   : Text(
                       "Shake it !",
@@ -135,6 +139,20 @@ class _FlutterGameState extends State<Game>
             _shakeCounter != null
                 ? Text(
                     "$_shakeCounter",
+                    style: TextStyle(
+                      fontSize: 104.0,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.pinkAccent,
+                    ),
+                  )
+                : Text(""),
+            Container(
+              margin: const EdgeInsets.only(top: 18),
+              child: _shakeCounter != null ? Text("Meilleur score:") : Text(""),
+            ),
+            _shakeCounter != null
+                ? Text(
+                    "$localScore",
                     style: TextStyle(
                       fontSize: 104.0,
                       fontWeight: FontWeight.w900,
@@ -195,11 +213,34 @@ class _FlutterGameState extends State<Game>
             }));
   }
 
+    Future<int> _read() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'my_int_key';
+    final value = prefs.getInt(key) ?? 0;
+    print('read: $value');
+    return value;
+
+  }
+
+
+  _save() async {
+
+    if(_shakeCounter > await _read()){
+      final prefs = await SharedPreferences.getInstance();
+      final key = 'my_int_key';
+      localScore = _shakeCounter;
+      final value = _shakeCounter;
+      prefs.setInt(key, value);
+      print('saved $value');
+    }
+
+  }
+  
   void _persistScore(int score) {
     FirebaseAuth.instance.currentUser().then( (user) async {
       if (user == null) {
-        // local persist
-        // _localPersist(score);
+          _save();
+          _read();
       } else {
         // firebase persist
         await _firebasePersist(score, user);

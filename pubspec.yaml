@@ -21,6 +21,7 @@ dependencies:
  # cloud_firestore:
   flutter:
     sdk: flutter
+  shared_preferences: ^0.4.3
 
 
 
