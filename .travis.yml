@@ -28,8 +28,8 @@ before_script:
   - chmod +x travis_script.sh
 script:
   # - ./travis_script.sh
-  - flutter analyze
-  - flutter test
+  - ./flutter analyze
+  - ./flutter test
 cache:
   directories:
     - $HOME/shared/.pub-cache
