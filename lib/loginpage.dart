@@ -37,7 +37,15 @@ class _LoginPageSate extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    FirebaseAuth.instance.currentUser().then( (user) {
+      if (user != null) {
+        Navigator
+          .of(context)
+          .pushReplacementNamed('/game');
+        return;
+      }
+    });
+    
     return new Scaffold(
       appBar: AppBar(
         title: Image(
@@ -168,7 +176,7 @@ class _LoginPageSate extends State<LoginPage> {
                                   ],
                                 ),
                                 OutlineButton(
-                                    child: Text("signup"),
+                                    child: Text("Signup"),
                                     onPressed: () {
                                       Navigator.of(context)
                                           .pushNamed('/signup');

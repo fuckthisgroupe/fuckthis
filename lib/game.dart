@@ -74,6 +74,7 @@ class _FlutterGameState extends State<Game>
   }
 
   Scaffold _buildGameScaffold() {
+    localScore = 0;
 
     FirebaseAuth.instance.currentUser().then( (user) async {
       if (user == null) {
@@ -147,20 +148,6 @@ class _FlutterGameState extends State<Game>
                   )
                 : Text(""),
             Container(
-              margin: const EdgeInsets.only(top: 18),
-              child: _shakeCounter != null ? Text("Meilleur score:") : Text(""),
-            ),
-            _shakeCounter != null
-                ? Text(
-                    "$localScore",
-                    style: TextStyle(
-                      fontSize: 104.0,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.pinkAccent,
-                    ),
-                  )
-                : Text(""),
-            Container(
               child: Visibility(
                 visible: _isTime,
                 child: Text("$_start secondes restantes"),
@@ -185,7 +172,29 @@ class _FlutterGameState extends State<Game>
             Container(
               child: Visibility(
                 visible: !_isTime,
-                child: Text("Best score: $onlineBestScore"),
+                child: onlineBestScore != null ? Text("Best score: $onlineBestScore") : Text("Best score: $localScore"),
+              ),
+            ),
+            Container(
+              child: Visibility(
+                visible: !_isTime && onlineBestScore != null,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 120),
+                  width: double.infinity,
+                  child: RaisedButton(
+                  color: Colors.white,
+                  onPressed: () {
+                        _logoutFirebase();
+                      },
+                      child:
+                          Text("Logout",
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                color: Colors.pink,
+                              )),
+                ),
+              ),
+              
               ),
             ),
           ],
@@ -270,6 +279,17 @@ class _FlutterGameState extends State<Game>
         .listen( (Event event) {
           onlineBestScore = event.snapshot.value;
         });
+  }
+
+  void _logoutFirebase() async {
+    await FirebaseAuth.instance.signOut().then((action) {
+      onlineBestScore = null;
+      Navigator
+          .of(context)
+          .pushReplacementNamed('/loginpage');
+    }).catchError((e) {
+      print(e);
+    });
   }
 
 }

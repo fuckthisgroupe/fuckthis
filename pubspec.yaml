@@ -18,12 +18,16 @@ dependencies:
   google_sign_in:
   sensors:
   rxdart:
+  flutter_launcher_icons: "^0.6.1"
  # cloud_firestore:
   flutter:
     sdk: flutter
   shared_preferences: ^0.4.3
 
-
+flutter_icons:
+  android: "launcher_icon" 
+  ios: true
+  image_path: "images/mini_logo.png"
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
