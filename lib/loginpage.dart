@@ -146,7 +146,7 @@ class _LoginPageSate extends State<LoginPage>{
                       ],
                     ),
                     OutlineButton(
-                        child: Text("signup"),
+                        child: Text("Signup"),
                         onPressed: (){
                           Navigator.of(context).pushNamed('/signup');
                         }),
