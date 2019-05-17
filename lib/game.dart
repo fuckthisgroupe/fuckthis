@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sensors/sensors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vibrate/vibrate.dart';
 
 class Game extends StatefulWidget {
   @override
@@ -17,6 +18,7 @@ class _FlutterGameState extends State<Game>
     with SingleTickerProviderStateMixin {
 
   static const String FIREBASE_KEY = 'score';
+  
 
   static int onlineBestScore;
   bool _img1 = false;
@@ -73,9 +75,15 @@ class _FlutterGameState extends State<Game>
     });
   }
 
+  bool canVibrate;
+
   Scaffold _buildGameScaffold() {
+    _read();
+    print('4444444444444444444444');
+    print(localScore);
 
     FirebaseAuth.instance.currentUser().then( (user) async {
+      canVibrate = await Vibrate.canVibrate;
       if (user == null) {
         // local persist
         _read().then( (int x) {
@@ -215,6 +223,7 @@ class _FlutterGameState extends State<Game>
                 _img1 = false;
                 _img2 = false;
                 _persistScore(_shakeCounter); // DEBUG
+                Vibrate.vibrate();
               } else {
                 _start = _start - 1;
               }
@@ -225,6 +234,7 @@ class _FlutterGameState extends State<Game>
     final prefs = await SharedPreferences.getInstance();
     final key = 'my_int_key';
     final value = prefs.getInt(key) ?? 0;
+    localScore = value;
     print('read: $value');
     return value;
 
