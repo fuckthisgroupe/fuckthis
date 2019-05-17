@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -12,6 +14,10 @@ class Game extends StatefulWidget {
 
 class _FlutterGameState extends State<Game>
     with SingleTickerProviderStateMixin {
+
+  static const String FIREBASE_KEY = 'score';
+
+  static int onlineBestScore;
 
   bool _img1 = false;
   bool _img2 = false;
@@ -65,7 +71,17 @@ class _FlutterGameState extends State<Game>
     });
   }
 
+
   Scaffold _buildGameScaffold() {
+    FirebaseAuth.instance.currentUser().then( (user) async {
+      if (user == null) {
+        // local persist
+        // _localPersist(score);
+      } else {
+        _firebaseListen(user);
+      }
+    });
+
     return new Scaffold(
         appBar: AppBar(
           title: Image(
@@ -147,7 +163,13 @@ class _FlutterGameState extends State<Game>
                   image: AssetImage("images/shakeleftbottom.png"),
                   height: 450.0,
                   fit: BoxFit.fitHeight),
-            ))
+            )),
+            Container(
+              child: Visibility(
+                visible: !_isTime,
+                child: Text("Best score: $onlineBestScore"),
+              ),
+            ),
           ],
         )));
   }
@@ -166,9 +188,47 @@ class _FlutterGameState extends State<Game>
                 _isTime = false;
                 _img1 = false;
                 _img2 = false;
+                _persistScore(_shakeCounter); // DEBUG
               } else {
                 _start = _start - 1;
               }
             }));
   }
+
+  void _persistScore(int score) {
+    FirebaseAuth.instance.currentUser().then( (user) async {
+      if (user == null) {
+        // local persist
+        // _localPersist(score);
+      } else {
+        // firebase persist
+        await _firebasePersist(score, user);
+        _firebaseListen(user);
+      }
+    });
+  }
+
+  Future<void> _firebasePersist(int score, FirebaseUser user) async {
+    if(score > onlineBestScore) {
+     return FirebaseDatabase.instance
+        .reference()
+        .child("users")
+        .child( user.uid.toString())
+        .child(FIREBASE_KEY)
+        .set(score);
+    }
+  }
+
+  void _firebaseListen(FirebaseUser user) {
+    FirebaseDatabase.instance
+        .reference()
+        .child("users")
+        .child( user.uid.toString())
+        .child(FIREBASE_KEY)
+        .onValue
+        .listen( (Event event) {
+          onlineBestScore = event.snapshot.value;
+        });
+  }
+
 }
